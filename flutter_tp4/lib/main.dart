@@ -87,6 +87,18 @@ class _PrincipalState extends State<Principal> {
     ),
   ];
 
+  void _alterarFavorito(PontoTuristico ponto) {
+    setState(() {
+      ponto.favorito = !ponto.favorito;
+    });
+  }
+
+  void _alterarVisitado(PontoTuristico ponto) {
+    setState(() {
+      ponto.visitado = !ponto.visitado;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -140,7 +152,7 @@ class _PrincipalState extends State<Principal> {
         children: [
           Image.asset(
             ponto.imagem,
-            height: 180,
+            height: 300,
             width: double.infinity,
             fit: BoxFit.cover,
           ),
@@ -167,11 +179,32 @@ class _PrincipalState extends State<Principal> {
                 ),
                 const SizedBox(height: 8),
                 Text(ponto.descricao, textAlign: TextAlign.center),
+                const SizedBox(height: 8),
+                _construirMarcacoes(ponto),
               ],
             ),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _construirMarcacoes(PontoTuristico ponto) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Checkbox(
+          value: ponto.favorito,
+          onChanged: (valor) => _alterarFavorito(ponto),
+        ),
+        const Flexible(child: Text('Favorito', textAlign: TextAlign.center)),
+        const SizedBox(width: 16),
+        Checkbox(
+          value: ponto.visitado,
+          onChanged: (valor) => _alterarVisitado(ponto),
+        ),
+        const Flexible(child: Text('Visitado', textAlign: TextAlign.center)),
+      ],
     );
   }
 }
